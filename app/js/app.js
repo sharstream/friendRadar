@@ -1,4 +1,3 @@
-// Chosen CSS
 $(document).ready(function(){
     var config = {
         ".chosen-select": {},
