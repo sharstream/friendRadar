@@ -11,27 +11,22 @@ module.exports = (app) => {
 
         friends.push(req.body);
 
-        //calculate the total difference
-        let totalDifference = 0;
-        const previous = friends[0]['scores'].reduce((total, amount) => total + amount);
-        const current = friends[1]['scores'].reduce((total, amount) => total + amount);
+        //add for loop to traverse the friends arrays.
 
-        if (previous === current) {
-            console.log('this is the exactly match!');
-        }
-        else if (previous > current) {
-            console.log('the previous friend is the cloest match!');
-        }
-        else {
-            console.log('your next friend is the cloest match!')
-        }
+        friends.sort( (friendOne, friendTwo) => {
+            var totalDifference = 0;
+            var friendOne_diff = friendOne['scores'].reduce((total, amount) => total + amount);
+            var friendTwo_diff = friendTwo['scores'].reduce((total, amount) => total + amount);
+            totalDifference = friendOne_diff - friendTwo_diff;
+            return Math.abs(totalDifference);
+        });
 
-        res.json(true); // KEY LINE
+        res.json({name: friends[0]['name'], photo: friends[0]['photo']}); // KEY LINE
     });
 
     app.post('/api/clear', function (req, res) {
         // Empty out the arrays of data
         friends = [];
         console.log(friends);
-    })
+    });
 }

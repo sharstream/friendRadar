@@ -66,18 +66,26 @@ $(document).ready(function(){
                 url: "/api/friends",
                 data: JSON.stringify(userData),
                 contentType: 'application/json',
-                method: 'POST',
-                success: (data) => {
-                    $("#match-name").text(data.name);
-                    $("#match-img").attr("src", data.photo);
+                method: 'POST'
+            }).then(function (response) {
+
+                console.log(response);
+                // Looping through each result item
+                if (response !== null) {
+                    $("#match-name").text(response.name);
+                    $("#match-img").attr("src", response.photo);
 
                     // Show the modal with the best match
                     $("#results-modal").modal("toggle");
-                },
-                error: (xhr, status, error) => {
-                    console.log('Error: ' + error.message);
-                    $('#lblResponse').html('Error connecting to the server.');
                 }
+            }).done(function () {
+                console.log("success");
+
+            }).fail(function () {
+                console.log("error");
+
+            }).always(function () {
+                console.log("complete");
             });
         } else {
             alert("Please fill out all fields before submitting!");
